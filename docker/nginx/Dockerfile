@@ -26,7 +26,7 @@ FROM nginx:alpine
 
 RUN rm /etc/nginx/conf.d/*
 
-COPY --from=build /app/frontend/build /usr/share/nginx/html
+COPY --from=build /app/frontend/build/client /usr/share/nginx/html
 # *.conf files in conf.d/ dir get included in main config
 COPY ./docker/nginx/development /etc/nginx/conf.d
 
