@@ -19,7 +19,7 @@ services:
     build:
       context: .
       dockerfile: ./docker/backend/Dockerfile
-    entrypoint: /home/wsgi/docker/backend/wsgi-entrypoint.sh
+    entrypoint: wsgi/docker/backend/wsgi-entrypoint.sh
     volumes:
       - static_volume:/home/wsgi/backend/django_static
       - static_image:/home/wsgi/backend/media
