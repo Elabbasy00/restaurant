@@ -1,26 +1,23 @@
 FROM python:3.13-slim
 
-RUN useradd -d /home/wsgi -m -s /bin/bash -u 0 -o -g root wsgi
+# Create user and set up environment
+RUN useradd -d /home/wsgi -m -s /bin/bash -u 1000 -g root wsgi
 USER wsgi
 
-ADD --chown=wsgi:wsgi ./backend /home/wsgi/backend
-ADD --chown=wsgi:wsgi ./docker /home/wsgi/docker
-
 ENV DockerHOME=/home/wsgi
+WORKDIR $DockerHOME
 
-RUN mkdir -p $DockerHOME
-
-WORKDIR /home/wsgi
-
-ADD ./backend/requirements /home/wsgi/backend/requirements
-
+# Set up PATH and upgrade pip
 ENV PATH=/home/wsgi/.local/bin:$PATH
-
 RUN pip install --upgrade pip
 
-
+# First copy just requirements to leverage Docker cache
+COPY --chown=wsgi:root ./backend/requirements ./backend/requirements
 RUN pip3 install -r backend/requirements/base.txt
 
+# Then copy the rest of the files
+COPY --chown=wsgi:root ./backend ./backend
+COPY --chown=wsgi:root ./docker ./docker
 
-
+# Make entrypoint executable
 RUN chmod +x /home/wsgi/docker/backend/wsgi-entrypoint.sh
