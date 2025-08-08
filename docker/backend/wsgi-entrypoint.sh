@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # chmod +x wsgi_entrypoint.sh
 
