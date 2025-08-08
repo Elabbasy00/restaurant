@@ -17,7 +17,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "~": path.resolve("/app/frontend/app"),
+      "~": path.resolve("app/"),
     },
   },
 });
