@@ -3,8 +3,8 @@
 FROM node:20.0.0-alpine as build
 
 WORKDIR /app/frontend
-COPY ./frontend/package.json ./
-COPY ./frontend/yarn.lock ./
+COPY ./frontend/package.json .
+COPY ./frontend/yarn.lock .
 
 
 # RUN apk add --no-cache --virtual .gyp \
@@ -17,7 +17,7 @@ COPY ./frontend/yarn.lock ./
 RUN yarn install 
 # --frozen-lockfile 
 
-COPY ./frontend/ ./
+COPY ./frontend .
 RUN yarn build
 
 

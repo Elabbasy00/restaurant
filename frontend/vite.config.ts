@@ -17,7 +17,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "~": path.resolve(__dirname, "./app"), // Must match tsconfig's "paths"
+      "~": path.resolve(__dirname, "./app"),
     },
   },
 });
