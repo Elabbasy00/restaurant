@@ -2,6 +2,7 @@ FROM python:3.13-slim
 
 RUN useradd -d /home/wsgi -m -s /bin/bash -u 0 -o -g root wsgi
 USER wsgi
+
 ADD --chown=wsgi:wsgi ./backend /home/wsgi/backend
 ADD --chown=wsgi:wsgi ./docker /home/wsgi/docker
 
