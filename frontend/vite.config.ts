@@ -10,6 +10,6 @@ export default defineConfig({
     manifest: true,
   },
   server: {
-    origin: "http://localhost:80", // Match your Nginx port
+    origin: "http://localhost", // Match your Nginx port
   },
 });
