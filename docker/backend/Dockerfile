@@ -19,8 +19,7 @@ RUN pip install --upgrade pip
 
 RUN pip3 install -r backend/requirements/base.txt
 
-ADD --chown=wsgi:wsgi ./backend /home/wsgi/backend
-ADD --chown=wsgi:wsgi ./docker /home/wsgi/docker
-ADD ./docker /home/wsgi/docker
+COPY --chown=wsgi:wsgi ./backend /home/wsgi/backend
+COPY --chown=wsgi:wsgi ./docker /home/wsgi/docker
 
 RUN chmod +x /home/wsgi/docker/backend/wsgi-entrypoint.sh
