@@ -12,14 +12,14 @@ WORKDIR /home/wsgi
 
 ADD ./backend/requirements /home/wsgi/backend/requirements
 
-ENV PATH=/home/wsgi/.local/bin:$PATH
+# ENV PATH=/home/wsgi/.local/bin:$PATH
 
-RUN pip install --upgrade pip
+# RUN pip install --upgrade pip
 
 
-RUN pip3 install -r backend/requirements/base.txt
+# RUN pip3 install -r backend/requirements/base.txt
 
-ADD --chown=wsgi:wsgi ./backend /home/wsgi/backend
-ADD --chown=wsgi:wsgi ./docker /home/wsgi/docker
+# ADD --chown=wsgi:wsgi ./backend /home/wsgi/backend
+# ADD --chown=wsgi:wsgi ./docker /home/wsgi/docker
 
-RUN chmod +x /home/wsgi/docker/backend/wsgi-entrypoint.sh
+# RUN chmod +x /home/wsgi/docker/backend/wsgi-entrypoint.sh
