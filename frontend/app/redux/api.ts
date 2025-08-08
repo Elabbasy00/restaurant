@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 import type { RootState } from "./store";
 import { GetBaseUrl } from "~/lib/utils";
+
 // import { getAPIUrl } from '../utils/Utils';
 
 const baseQuery = fetchBaseQuery({

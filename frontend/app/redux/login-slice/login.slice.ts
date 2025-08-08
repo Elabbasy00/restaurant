@@ -1,8 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { isAxiosError } from "axios";
 
 import { toast } from "sonner";
 import axiosInstance, { setAxiosAuthToken } from "~/lib/axiosInstance";
-import { isAxiosError, toastOnError } from "~/lib/utils";
+import { toastOnError } from "~/lib/utils";
+
 import type { APIErrorType, User, UserCredential } from "~/types/dataTypes";
 
 interface State {
