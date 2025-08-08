@@ -1,0 +1,134 @@
+services:
+  db:
+    image: postgres:16.3-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    restart: always
+    environment:
+      - POSTGRES_DB=restDB
+      - POSTGRES_USER=db_admin
+      - POSTGRES_PASSWORD=010202020aA$!
+    env_file:
+      - path: ./backend/.env
+        required: true
+    networks:
+      - backend_network  # DB is only accessible by backend
+
+  backend:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./docker/backend/Dockerfile
+    entrypoint: /home/wsgi/docker/backend/wsgi-entrypoint.sh
+    volumes:
+      - static_volume:/home/wsgi/backend/django_static
+      - static_image:/home/wsgi/backend/media
+    expose:
+      - 8000
+    env_file:
+      - path: ./backend/.env
+        required: true
+    depends_on:
+      - db
+    links:
+      - db
+    networks:
+      - backend_network  # Only connected to backend_network (No direct Next.js access)
+
+
+  # redis:
+  #   image: "redis:alpine"
+  #   restart: unless-stopped
+  #   expose:
+  #     - 6379
+
+  # celery:
+  #   restart: unless-stopped
+  #   build:
+  #     context: .
+  #     dockerfile: ./docker/backend/Dockerfile_Celery
+  #   entrypoint: /home/celery/docker/backend/celery-entrypoint.sh
+
+  #   env_file:
+  #     - path: ./backend/.env
+  #       required: true
+
+  #   depends_on:
+  #     - backend
+  #     - redis
+
+  #   links:
+  #     - db
+  #     - redis
+
+
+  nginx:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - static_volume:/app/backend/django_static
+      - static_image:/app/backend/media
+      - ./docker/nginx/certbot/conf:/etc/letsencrypt:ro
+      - ./docker/nginx/certbot/www:/var/www/certbot:ro
+
+
+    depends_on:
+
+      - backend
+
+    networks:
+      - frontend_network  # Can talk to Next.js
+      - backend_network  # Can talk to Backend
+      
+  certbot:
+    image: certbot/certbot
+    restart: unless-stopped
+    volumes:
+      - ./docker/nginx/certbot/conf:/etc/letsencrypt
+      - ./docker/nginx/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    networks:
+      - frontend_network
+
+  pgbackups:
+    container_name: Backup
+    image: prodrigestivill/postgres-backup-local
+    restart: always
+    volumes:
+      - ./backup:/backups
+    links:
+      - db:db
+    depends_on:
+      - db
+    environment:
+      - POSTGRES_HOST=db
+      - POSTGRES_USER=db_admin
+      - POSTGRES_PASSWORD=010202020aA$!
+      - POSTGRES_DB=restDB
+
+      - POSTGRES_EXTRA_OPTS=-Z9 --schema=public --blobs
+      - SCHEDULE=@every 24h0m00s
+      - BACKUP_KEEP_DAYS=7
+      - BACKUP_KEEP_WEEKS=4
+      - BACKUP_KEEP_MONTHS=6
+      - HEALTHCHECK_PORT=81
+    networks:
+      - backend_network
+
+
+volumes:
+  static_volume: {}
+  static_image: {}
+  postgres_data:
+
+
+networks:
+  backend_network:
+    driver: bridge
+  frontend_network:
+    driver: bridge
