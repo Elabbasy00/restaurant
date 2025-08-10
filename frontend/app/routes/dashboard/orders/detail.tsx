@@ -182,7 +182,6 @@ const OrderDetailPage: React.FC = () => {
       <body>
         <div class="header">
           <h2>Sina star</h2>
-          <p>الفاتورة</p>
         </div>
         
         <div class="order-info">
@@ -191,7 +190,8 @@ const OrderDetailPage: React.FC = () => {
           }</p>
           <p style="font-size: 0.9em;"><strong>تاريخ:</strong> ${format(
             new Date(order.created_at),
-            "PPP 'at' p"
+            "PPP 'at' p",
+            { locale: ar }
           )}</p>
           <p style="font-size: 0.9em;"><strong>العميل:</strong> ${
             order.customer_name || "N/A"
