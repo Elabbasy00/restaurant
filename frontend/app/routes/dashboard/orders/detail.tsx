@@ -168,7 +168,7 @@ const OrderDetailPage: React.FC = () => {
       <head>
         <title>فاتورة - الطلب #${order.ref_code || order.id}</title>
         <style>
-          body { font-family: Arial, sans-serif; max-width: 400px; margin: 0 auto; padding: 20px; }
+          body { font-family: Arial, sans-serif; max-width: 100%%; margin: 0 auto; padding: 10px; }
           .header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 20px; }
           .order-info { margin-bottom: 20px; }
           .items { margin-bottom: 20px; }
@@ -223,7 +223,7 @@ const OrderDetailPage: React.FC = () => {
               ${(item.item_variations || [])
                 .map(
                   (variation: any) =>
-                    `<div style="margin-right: 20px; font-size: 0.9em; color: #999;">
+                    `<div style="margin-right: 20px; font-size: 0.8em; color: #333;">
                   + ${variation.value} (+${parseFloat(
                       variation.extra_price?.toString() || "0"
                     ).toFixed(2)} L.E)
@@ -232,7 +232,7 @@ const OrderDetailPage: React.FC = () => {
                 .join("")}
               ${
                 item.person_name
-                  ? `<div style="margin-right: 20px; font-size: 0.9em; color: #999;">مُخصص لـ: ${item.person_name}</div>`
+                  ? `<div style="margin-right: 20px; font-size: 0.8em; color: #333;">مُخصص لـ: ${item.person_name}</div>`
                   : ""
               }
             `;
@@ -257,7 +257,7 @@ const OrderDetailPage: React.FC = () => {
                 </div>
                 ${
                   service.person_name
-                    ? `<div style="margin-right: 20px; font-size: 0.9em; color: #999;">مسجل ل: ${service.person_name}</div>`
+                    ? `<div style="margin-right: 20px; font-size: 0.8em; color: #333;">مسجل ل: ${service.person_name}</div>`
                     : ""
                 }
               `;
@@ -291,7 +291,7 @@ const OrderDetailPage: React.FC = () => {
         
         <div style="text-align: center; margin-top: 30px; font-size: 0.9em;">
           <p>شكرا لزيارتكم لنا..!</p>
-          <p>Payment Status: ${
+          <p>حالة الدفع: ${
             OrderPaymentStatus[
               order.payment_status as keyof typeof OrderPaymentStatus
             ]?.name
