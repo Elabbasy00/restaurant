@@ -181,25 +181,29 @@ const OrderDetailPage: React.FC = () => {
       </head>
       <body>
         <div class="header">
-          <h2>الاسم</h2>
+          <h2>Sina star</h2>
           <p>الفاتورة</p>
         </div>
         
         <div class="order-info">
-          <p><strong>طلب #:</strong> ${order.ref_code || order.id}</p>
-          <p><strong>تاريخ:</strong> ${format(
+          <p style="font-size: 0.9em;"><strong>طلب #:</strong> ${
+            order.ref_code || order.id
+          }</p>
+          <p style="font-size: 0.9em;"><strong>تاريخ:</strong> ${format(
             new Date(order.created_at),
             "PPP 'at' p"
           )}</p>
-          <p><strong>العميل:</strong> ${order.customer_name || "N/A"}</p>
+          <p style="font-size: 0.9em;"><strong>العميل:</strong> ${
+            order.customer_name || "N/A"
+          }</p>
           ${
             order.customer_phone
-              ? `<p><strong>رقم الهاتف:</strong> ${order.customer_phone}</p>`
+              ? `<p style="font-size: 0.9em;"><strong>رقم الهاتف:</strong> ${order.customer_phone}</p>`
               : ""
           }
           ${
             order.table
-              ? `<p><strong>الطاولة:</strong> ${order.table.area?.name} - Table ${order.table.number}</p>`
+              ? `<p style="font-size: 0.9em;"><strong>الطاولة:</strong> ${order.table.area?.name} - طاولة ${order.table.number}</p>`
               : ""
           }
         </div>
@@ -219,7 +223,7 @@ const OrderDetailPage: React.FC = () => {
               ${(item.item_variations || [])
                 .map(
                   (variation: any) =>
-                    `<div style="margin-left: 20px; font-size: 0.9em; color: #666;">
+                    `<div style="margin-right: 20px; font-size: 0.9em; color: #999;">
                   + ${variation.value} (+${parseFloat(
                       variation.extra_price?.toString() || "0"
                     ).toFixed(2)} L.E)
@@ -228,7 +232,7 @@ const OrderDetailPage: React.FC = () => {
                 .join("")}
               ${
                 item.person_name
-                  ? `<div style="margin-left: 20px; font-size: 0.8em; color: #888;">مُخصص لـ: ${item.person_name}</div>`
+                  ? `<div style="margin-right: 20px; font-size: 0.9em; color: #999;">مُخصص لـ: ${item.person_name}</div>`
                   : ""
               }
             `;
@@ -253,7 +257,7 @@ const OrderDetailPage: React.FC = () => {
                 </div>
                 ${
                   service.person_name
-                    ? `<div style="margin-left: 20px; font-size: 0.8em; color: #888;">مسجل ل: ${service.person_name}</div>`
+                    ? `<div style="margin-right: 20px; font-size: 0.9em; color: #999;">مسجل ل: ${service.person_name}</div>`
                     : ""
                 }
               `;
@@ -287,7 +291,11 @@ const OrderDetailPage: React.FC = () => {
         
         <div style="text-align: center; margin-top: 30px; font-size: 0.9em;">
           <p>شكرا لزيارتكم لنا..!</p>
-          <p>Payment Status: ${order.payment_status?.toUpperCase()}</p>
+          <p>Payment Status: ${
+            OrderPaymentStatus[
+              order.payment_status as keyof typeof OrderPaymentStatus
+            ]?.name
+          }</p>
         </div>
       </body>
       </html>
@@ -310,7 +318,7 @@ const OrderDetailPage: React.FC = () => {
 
   const toggleItemPaymentDialog = useCallback(() => {
     setShowItemPaymentDialog(!showItemPaymentDialog);
-  }, []);
+  }, [showItemPaymentDialog]);
 
   const togglePersonAssignmentDialog = useCallback(() => {
     setShowPersonAssignDialog(!showPersonAssignDialog);

@@ -22,7 +22,7 @@ import {
 const data = {
   teams: [
     {
-      name: "ريسورت",
+      name: "Sina star",
       logo: GalleryVerticalEnd,
       plan: "",
     },

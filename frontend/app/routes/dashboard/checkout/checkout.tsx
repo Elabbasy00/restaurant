@@ -158,12 +158,16 @@ const Checkout: React.FC = () => {
 
   // Calculate totals with tax
   const calculateTotals = () => {
-    const itemsSubtotal = cart.subtotal;
+    const itemsSubtotal = items.reduce(
+      (sum: number, item: CartItem) => sum + item.price * item.quantity,
+      0
+    );
     const servicesSubtotal = services.reduce(
       (sum: number, service: CartService) =>
         sum + service.price * service.quantity,
       0
     );
+
     const subtotal = itemsSubtotal + servicesSubtotal;
     const tax = taxEnabled ? subtotal * 0.14 : 0; // 14% tax rate
     const total = subtotal + tax;
@@ -637,17 +641,17 @@ const Checkout: React.FC = () => {
               {/* Order Totals */}
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-500">المجموع</span>
+                  <span className="text-gray-500">مجموع المنتجات</span>
                   <span>{totals.itemsSubtotal.toFixed(2)} L.E</span>
                 </div>
                 {totals.servicesSubtotal > 0 && (
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-500">المجموع</span>
+                    <span className="text-gray-500">المجموع الخدمات</span>
                     <span>{totals.servicesSubtotal.toFixed(2)} L.E</span>
                   </div>
                 )}
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-500">المجموع</span>
+                  <span className="text-gray-500">المجموع الفرعي</span>
                   <span>{totals.subtotal.toFixed(2)} L.E</span>
                 </div>
                 {taxEnabled && (
