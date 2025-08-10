@@ -32,14 +32,14 @@ export const isEmpty = (value: any) =>
 export const GetBaseUrl = (): string => {
   if (!isClient()) return "";
   if (window.location.origin.includes("localhost")) {
-    return "http://127.0.0.1:8000/api/";
+    return import.meta.env.VITE_API_URL;
   }
   return `https://botsupport.team/api/`;
 };
 
 export const GetWebSocketUrl = (): string => {
   if (window.location.origin.includes("localhost")) {
-    return `ws://127.0.0.1:8000/`;
+    return import.meta.env.VITE_API_URL;
   }
   return `wss://botsupport.team/`;
 };
