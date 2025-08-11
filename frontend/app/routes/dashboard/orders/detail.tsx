@@ -168,7 +168,8 @@ const OrderDetailPage: React.FC = () => {
       <head>
         <title>فاتورة - الطلب #${order.ref_code || order.id}</title>
         <style>
-          body { font-family: Arial, sans-serif; max-width: 100%%; margin: 0 auto; padding: 10px; }
+          @page {size: 80mm 210mm; margin: 0;}
+          body { font-family: Arial, sans-serif; max-width: 100%%; margin: 0 auto; padding: 10px; width: 80mm; height: 210mm; }
           .header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 20px; }
           .order-info { margin-bottom: 20px; }
           .items { margin-bottom: 20px; }
