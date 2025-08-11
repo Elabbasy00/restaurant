@@ -177,7 +177,7 @@ const OrderDetailPage: React.FC = () => {
           .totals { border-top: 1px solid #000; padding-top: 10px; }
           .total-line { display: flex; justify-content: space-between; margin-bottom: 5px; }
           .final-total { font-weight: bold; font-size: 1.2em; border-top: 1px solid #000; padding-top: 5px; }
-          @media print { body { margin: 0; } }
+          @media print { body { margin: 0; padding: 0px } }
         </style>
       </head>
       <body>
